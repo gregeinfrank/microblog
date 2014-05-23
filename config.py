@@ -10,10 +10,12 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 WHOOSH_BASE = os.path.join(basedir, 'search.db')
 
 # mail server settings
-MAIL_SERVER = 'localhost'
-MAIL_PORT = 25
-MAIL_USERNAME = 'greegles'
-MAIL_PASSWORD = 'password'
+MAIL_SERVER = 'smtp.googlemail.com'
+MAIL_PORT = 465
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
+MAIL_USERNAME = 'hidden'
+MAIL_PASSWORD = 'hidden'
 
 # administrator list
 ADMINS = ['greg.einfrank+microblogerrors@gmail.com']
