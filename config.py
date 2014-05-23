@@ -7,6 +7,8 @@ SECRET_KEY = 'you-will-never-guess'
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
+WHOOSH_BASE = os.path.join(basedir, 'search.db')
+
 # mail server settings
 MAIL_SERVER = 'localhost'
 MAIL_PORT = 25
@@ -25,3 +27,5 @@ OPENID_PROVIDERS = [
 
 # pagination
 POSTS_PER_PAGE = 2
+
+MAX_SEARCH_RESULTS = 50
