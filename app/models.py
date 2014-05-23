@@ -38,6 +38,17 @@ class User(db.Model):
         return '<User %r>' % self.nickname
 
 
+    @staticmethod
+    def make_unique_nickname(nickname):
+        if User.query.filter_by(nickname=nickname).first() is None:
+            return nickname
+        version = 1
+        while True:
+            new_nickname = "{0}_{1}".format(nickname, version)
+            if User.query.filter_by(nickname=new_nickname).first() is None:
+                return new_nickname
+            version += 1
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
