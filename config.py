@@ -12,6 +12,8 @@ SQLALCHEMY_RECORD_QUERIES = True
 # slow database query threshole (in seconds)
 DATABASE_QUERY_TIMEOUT= 0.5
 
+# Qhoosh does not work on Heroku
+WHOOSH_ENABLED = os.environ.get('HEROKU') is None
 WHOOSH_BASE = os.path.join(basedir, 'search.db')
 
 # mail server settings

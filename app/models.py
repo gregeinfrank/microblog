@@ -1,6 +1,6 @@
 from app import db, app
+from config import WHOOSH_ENABLED
 from hashlib import md5
-import flask.ext.whooshalchemy as whooshalchemy
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -89,4 +89,6 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %r>' % self.body
 
-whooshalchemy.whoosh_index(app, Post)
+if WHOOSH_ENABLED:
+    import flask.ext.whooshalchemy as whooshalchemy
+    whooshalchemy.whoosh_index(app, Post)

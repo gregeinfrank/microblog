@@ -3,7 +3,7 @@ from flask.ext.babel import gettext
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from flask.ext.sqlalchemy import get_debug_queries
 from app import app, db, lm, oid, babel
-from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES, DATABASE_QUERY_TIMEOUT
+from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES, DATABASE_QUERY_TIMEOUT, WHOOSH_ENABLED
 from emails import follower_notification
 from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_USER, Post
@@ -88,6 +88,8 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
         g.search_form = SearchForm()
+    g.locale = get_locale()
+    g.search_enabled = WHOOSH_ENABLED
 
 @app.route('/logout')
 def logout():
