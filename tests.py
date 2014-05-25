@@ -1,4 +1,8 @@
 #!flask/bin/python
+
+from coverage import coverage
+cov = coverage(branch=True, omit=['flask/*', 'tests.py'])
+cov.start()
 import os
 import unittest
 from datetime import datetime, timedelta
@@ -6,6 +10,7 @@ from datetime import datetime, timedelta
 from config import basedir
 from app import app, db
 from app.models import User, Post
+
 
 class TestCase(unittest.TestCase):
     def setUp(self):
@@ -52,6 +57,7 @@ class TestCase(unittest.TestCase):
         db.session = db.create_scoped_session()
         db.session.delete(p)
         db.session.commit()
+
 
 class TestFollow(TestCase):
     def setUp(self):
@@ -133,4 +139,14 @@ class TestFollow(TestCase):
         assert f4 == [p4]
 
 if __name__ == '__main__':
-    unittest.main()
+    try:
+        unittest.main()
+    except:
+        pass
+    cov.stop()
+    cov.save()
+    print "\n\nCoverage Report: \n"
+    cov.report()
+    print "HTML version: " + os.path.join(basedir, "tmp/coverage/index.html")
+    cov.html_report(directory="tmp/coverage")
+    cov.erase()

@@ -7,6 +7,10 @@ SECRET_KEY = 'you-will-never-guess'
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+SQLALCHEMY_RECORD_QUERIES = True
+
+# slow database query threshole (in seconds)
+DATABASE_QUERY_TIMEOUT= 0.5
 
 WHOOSH_BASE = os.path.join(basedir, 'search.db')
 

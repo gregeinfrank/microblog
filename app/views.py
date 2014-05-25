@@ -1,8 +1,9 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.babel import gettext
 from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask.ext.sqlalchemy import get_debug_queries
 from app import app, db, lm, oid, babel
-from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES
+from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS, LANGUAGES, DATABASE_QUERY_TIMEOUT
 from emails import follower_notification
 from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_USER, Post
@@ -71,6 +72,13 @@ def after_login(resp):
         session.pop('remember_me', None)
     login_user(user, remember=remember_me)
     return redirect(request.args.get('next') or url_for('index'))
+
+@app.after_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= DATABASE_QUERY_TIMEOUT:
+            app.logger.warning("SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" % (query.statement, query.parameters, query.duration, query.context))
+    return response
 
 @app.before_request
 def before_request():
