@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -19,6 +20,12 @@ MAIL_PASSWORD = 'hidden'
 
 # administrator list
 ADMINS = ['greg.einfrank+microblogerrors@gmail.com']
+
+# available languages
+LANGUAGES = {
+    'en': 'English',
+    'es': 'Español'
+    }
 
 OPENID_PROVIDERS = [
     { 'name': 'Google', 'url': 'https://www.google.com/accounts/o8/id' },
