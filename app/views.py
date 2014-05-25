@@ -171,6 +171,21 @@ def search_results(query):
                            query=query,
                            results=results)
 
+@app.route('/delete/<int:id>')
+@login_required
+def delete(id):
+    post = Post.query.get(id)
+    if post is None:
+        flash('Post not found.')
+        return redirect(url_for('index'))
+    if post.author.id != g.user.id:
+        flash('You cannot delete this post.')
+        return redirect(url_for('index'))
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted.')
+    return redirect(url_for('index'))
+
 @babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(LANGUAGES.keys())
